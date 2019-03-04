@@ -10,6 +10,7 @@
 #include "nodopuzzle.h"
 #include "searchstrategy.h"
 #include "breadthstrategy.h"
+#include "depthstrategy.h"
 
 using namespace std;
 NodoPuzzle *raiz;
@@ -37,37 +38,36 @@ int realizarBusqueda(SearchStrategy *s){
 
             int pasos = 0;
 
-            cout<< "solucion en el nivel: "<<n->nivel<<endl;
+                for (NodoPuzzle *tmp = n;;) {
+                    s->camino->push_front(tmp);
+                    tmp=tmp->padre;
+                    pasos++;
+                    if(tmp==nullptr)
+                        break;
+                }
 
-//                for (NodoPuzzle *tmp = n;;) {
-//                    s->camino->push_front(tmp);
-//                    tmp=tmp->padre;
-//                    pasos++;
-//                    if(tmp==nullptr)
-//                        break;
-//                }
-
-//                for (std::list<NodoPuzzle*>::iterator it = (s->camino->begin());it != s->camino->end();++it){
-//                    switch((*it)->accion){
-//                        case IZQUIERDA:
-//                            cout << "izquierda" <<endl;
-//                        break;
-//                        case DERECHA:
-//                                cout << "derecha" << endl;
-//                            break;
-//                        case ARRIBA:
-//                                cout << "arriba" << endl;
-//                            break;
-//                        case ABAJO:
-//                                cout << "abajo" <<endl;
-//                            break;
-//                    }
-//                    (*it)->imprimirEstado();
-//                }
+                for (std::list<NodoPuzzle*>::iterator it = (s->camino->begin());it != s->camino->end();++it){
+                    switch((*it)->accion){
+                        case IZQUIERDA:
+                            cout << "izquierda" <<endl;
+                        break;
+                        case DERECHA:
+                                cout << "derecha" << endl;
+                            break;
+                        case ARRIBA:
+                                cout << "arriba" << endl;
+                            break;
+                        case ABAJO:
+                                cout << "abajo" <<endl;
+                            break;
+                    }
+                    (*it)->imprimirEstado();
+                }
 
 
             //Estadisticas
             //cout<<"Solucionado en : "<<pasos<<" pasos"<<endl;
+            cout<< "solucion en el nivel: "<<n->nivel<<endl;
             cout<<"# nodos expandidos: "<<s->totalNodos<<endl;
             cout<<"~Memoria consumida: "<< (sizeof (NodoPuzzle) * (s->totalNodos))<<" bytes"<<endl;
             cout << "Tiempo: "<< ms <<" ms"<< endl;
@@ -108,7 +108,10 @@ int main()
     cout<<endl;
 
     //Preparar estrategia
-    SearchStrategy *s = new BreadthStrategy();
+//    SearchStrategy *s = new BreadthStrategy();
+//    s->asignarRaiz(raiz);
+
+    SearchStrategy *s = new depthstrategy(4);
     s->asignarRaiz(raiz);
 
     int r = realizarBusqueda(s);

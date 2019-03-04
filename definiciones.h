@@ -13,7 +13,7 @@
 
 #define PUZZLESIZE 3
 #define IMPRIMIR_CAMINO true
-#define MEZCLA 25
+#define MEZCLA 16
 #define MEZCLAR true
 
 //Estado inicial del juego

@@ -19,7 +19,8 @@ SOURCES += \
     estado.cpp \
     nodopuzzle.cpp \
     searchstrategy.cpp \
-    breadthstrategy.cpp
+    breadthstrategy.cpp \
+    depthstrategy.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -31,4 +32,5 @@ HEADERS += \
     nodopuzzle.h \
     definiciones.h \
     searchstrategy.h \
-    breadthstrategy.h
+    breadthstrategy.h \
+    depthstrategy.h
