@@ -21,12 +21,29 @@ void depthstrategy::asignarRaiz(NodoPuzzle *n)
 void depthstrategy::expandir(NodoPuzzle *n)
 {
 
+    //Si es objetivo devolver
+    if(pruebaObjetivo(n)){
+
+        guardarCamino(n);
+        imprimirCamino();
+
+        //Estadisticas
+        cout<<"Solucionado en : "<<pasos<<" pasos"<<endl;
+        cout<<"Solucion en el nivel: "<<solucion->nivel<<endl;
+        cout<<"# nodos expandidos: "<<totalNodos<<endl;
+        cout<<"~Memoria consumida: "<< (sizeof (NodoPuzzle) * (totalNodos))<<" bytes"<<endl;
+
+        return;
+    }else{
+        estadosExplorados->push_front(n->estado);
+    }
+
+    //si se llego al limite de profundidad devolver
     if(n->nivel==limite){
         return;
     }
 
-    estadosExplorados->push_front(n->estado);
-
+    //paracada susesor expandir
     //mov der
     if( n->estado->hc < (PUZZLESIZE-1)){
 
@@ -41,7 +58,10 @@ void depthstrategy::expandir(NodoPuzzle *n)
         sn->accion = DERECHA;
         sn->estado->moverDerecha();
 
-        frontera->push(sn);
+        if(!SeHaExplorado(sn)){
+            totalNodos+=1;
+            expandir(sn);
+        }
 
     }
 
@@ -59,8 +79,10 @@ void depthstrategy::expandir(NodoPuzzle *n)
         sn->accion = IZQUIERDA;
         sn->estado->moverIzquierda();
 
-        frontera->push(sn);
-
+        if(!SeHaExplorado(sn)){
+            totalNodos+=1;
+            expandir(sn);
+        }
 
     }
 
@@ -78,8 +100,10 @@ void depthstrategy::expandir(NodoPuzzle *n)
         sn->accion = ARRIBA;
         sn->estado->moverArriba();
 
-        frontera->push(sn);
-
+        if(!SeHaExplorado(sn)){
+            totalNodos+=1;
+            expandir(sn);
+        }
     }
 
     //mov abj
@@ -95,11 +119,33 @@ void depthstrategy::expandir(NodoPuzzle *n)
         sn->accion = ABAJO;
         sn->estado->moverAbajo();
 
-        frontera->push(sn);
-    }
+        if(!SeHaExplorado(sn)){
+            totalNodos+=1;
+            expandir(sn);
+        }
 
+    }
 }
 
+
+int depthstrategy::buscar(){
+    auto begin = chrono::high_resolution_clock::now();
+    expandir(seleccionarNodo());
+
+    //Detener conteo de tiempo
+    auto end = chrono::high_resolution_clock::now();
+    auto dur = end - begin;
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+
+    cout << "Tiempo: "<< ms <<" ms"<< endl;
+    if(solucion==nullptr){
+        return -1;
+    }else{
+
+
+        return 1;
+    }
+}
 
 NodoPuzzle* depthstrategy::seleccionarNodo()
 {

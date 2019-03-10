@@ -16,6 +16,7 @@ class BreadthStrategy : public SearchStrategy{
         NodoPuzzle* seleccionarNodo();
         bool puedeExpandirse();
         void asignarRaiz(NodoPuzzle*);
+        int buscar();
 };
 
 #endif // BREADTHSTRATEGY_H

@@ -10,6 +10,8 @@ class Estado{
     void crearmundo(int[PUZZLESIZE][PUZZLESIZE]);
     void mezclar();
     void encontrarHueco();
+    int buscaride(int);
+    int buscarjde(int);
     void moverDerecha();
     void moverIzquierda();
     void moverArriba();

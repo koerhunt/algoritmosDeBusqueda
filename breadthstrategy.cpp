@@ -107,3 +107,52 @@ NodoPuzzle* BreadthStrategy::seleccionarNodo(){
     frontera->pop();
     return nodoAddr;
 }
+
+int BreadthStrategy::buscar(){
+
+    //Inicia contador de tiempo transucrrido
+    auto begin = chrono::high_resolution_clock::now();
+
+    //Si hay nodos por expandir
+    while(puedeExpandirse()){
+
+        //Seleccionar un nodo a expandir
+        NodoPuzzle *n = seleccionarNodo();
+        n->estado->encontrarHueco();
+
+        //Este nodo es la solucion?
+        if(pruebaObjetivo(n)){
+
+            //Detener conteo de tiempo
+            auto end = chrono::high_resolution_clock::now();
+            auto dur = end - begin;
+            auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(dur).count();
+
+            //Guardar el camino en la pila
+            guardarCamino(n);
+            imprimirCamino();
+
+            //Estadisticas
+            cout<<"Solucionado en : "<<pasos<<" pasos"<<endl;
+            cout<<"Solucion en el nivel: "<<solucion->nivel<<endl;
+            cout<<"# nodos expandidos: "<<totalNodos<<endl;
+            cout<<"~Memoria consumida: "<< (sizeof (NodoPuzzle) * (totalNodos))<<" bytes"<<endl;
+            cout << "Tiempo: "<< ms <<" ms"<< endl;
+
+            return 0;
+        }else{
+            //Si no es un estado ya explorado
+            //expandirlo
+            if(!SeHaExplorado(n)){
+                expandir(n);
+                totalNodos+=1;
+            }
+
+        }
+
+    }
+
+    return -1;
+
+}
+

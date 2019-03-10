@@ -7,6 +7,7 @@ class NodoPuzzle
     public:
         int nivel;
         int accion;
+        int g; //costo
         NodoPuzzle(int);
         Estado *estado;
         NodoPuzzle *padre;

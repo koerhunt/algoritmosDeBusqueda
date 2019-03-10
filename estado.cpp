@@ -105,3 +105,28 @@ void Estado::moverAbajo(){
     }
 }
 
+int Estado::buscaride(int p){
+    for(int mi = 0; mi < PUZZLESIZE; mi++){
+        for(int mj = 0; mj < PUZZLESIZE; mj++){
+            if(mundo[mj][mi]==p){
+               return mj;
+            }
+        }
+    }
+}
+
+int Estado::buscarjde(int p){
+    for(int mi = 0; mi < PUZZLESIZE; mi++){
+        for(int mj = 0; mj < PUZZLESIZE; mj++){
+            if(mundo[mj][mi]==p){
+               return mi;
+            }
+        }
+    }
+}
+
+
+
+
+
+

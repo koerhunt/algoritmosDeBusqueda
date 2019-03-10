@@ -4,6 +4,7 @@ SearchStrategy::SearchStrategy()
 {
     estadosExplorados = new list<Estado*>();
     camino = new list<NodoPuzzle*>();
+    pasos = 0;
 }
 
 bool comparar(int a[PUZZLESIZE][PUZZLESIZE], int b[PUZZLESIZE][PUZZLESIZE]){
@@ -37,4 +38,36 @@ bool SearchStrategy::SeHaExplorado(NodoPuzzle *nd){
 //Funcion Objetivo
 bool SearchStrategy::pruebaObjetivo(NodoPuzzle *n){
     return comparar(n->estado->mundo, estadoFinal);
+}
+
+
+void SearchStrategy::guardarCamino(NodoPuzzle* n){
+    solucion = n;
+    for (NodoPuzzle *tmp = n;;) {
+        camino->push_front(tmp);
+        tmp=tmp->padre;
+        pasos++;
+        if(tmp==nullptr)
+            break;
+    }
+}
+
+void SearchStrategy::imprimirCamino(){
+    for (std::list<NodoPuzzle*>::iterator it = (camino->begin());it != camino->end();++it){
+        switch((*it)->accion){
+            case IZQUIERDA:
+                cout << "izquierda" <<endl;
+            break;
+            case DERECHA:
+                    cout << "derecha" << endl;
+                break;
+            case ARRIBA:
+                    cout << "arriba" << endl;
+                break;
+            case ABAJO:
+                    cout << "abajo" <<endl;
+                break;
+        }
+        (*it)->imprimirEstado();
+    }
 }

@@ -13,6 +13,7 @@ public:
     bool puedeExpandirse();
     NodoPuzzle *seleccionarNodo();
     void asignarRaiz(NodoPuzzle *);
+    int buscar();
 };
 
 #endif // DEPTHSTRATEGY_H
